@@ -1,0 +1,950 @@
+:root {
+  color-scheme: light;
+  --bg: #f8f9fa;
+  --bg-surface: rgba(255, 255, 255, 0.95);
+  --panel: #ffffff;
+  --panel-soft: rgba(13, 148, 136, 0.06);
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --accent: #0d9488;
+  --accent-2: #7c3aed;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  font-family: Inter, system-ui, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(13, 148, 136, 0.08),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(124, 58, 237, 0.08),
+      transparent 35%
+    ),
+    var(--bg);
+  color: var(--text);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.route-loading {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  background: var(--bg);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+
+.app-sidebar {
+  padding: 2rem 1.5rem;
+  background: rgba(255, 255, 255, 0.96);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  max-height: 100vh;
+  overflow-y: auto;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+}
+
+.avatar-menu-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.avatar-pill-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border: none;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.avatar-pill-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+}
+
+.avatar-dropdown {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 0.5rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-width: 160px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.dropdown-item {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: none;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: var(--panel-soft);
+}
+
+.dropdown-item.logout-item:hover {
+  background-color: rgba(248, 113, 113, 0.1);
+  color: var(--danger);
+}
+
+.app-sidebar > button {
+  margin-top: auto;
+}
+
+.brand-block {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.brand-mark {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: white;
+  font-weight: 800;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.2);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.brand-mark:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(13, 148, 136, 0.3);
+}
+
+.brand-block h1 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.brand-block p {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.sidebar-nav a {
+  padding: 0.95rem 1rem;
+  border-radius: 14px;
+  color: var(--muted);
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.sidebar-nav a.active,
+.sidebar-nav a:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+}
+
+.ghost-button,
+.secondary-button,
+.primary-button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.95rem 1.4rem;
+  font-weight: 600;
+}
+
+.ghost-button,
+.secondary-button,
+.primary-button,
+.login-form button,
+.view-toggle button {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.ghost-button {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.ghost-button:hover {
+  background: rgba(13, 148, 136, 0.08);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.primary-button {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: white;
+}
+
+.primary-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(13, 148, 136, 0.18);
+}
+
+.secondary-button {
+  background: rgba(13, 148, 136, 0.1);
+  color: var(--accent);
+}
+
+.secondary-button:hover {
+  background: rgba(13, 148, 136, 0.15);
+  transform: translateY(-1px);
+}
+
+.login-form button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 36px rgba(13, 148, 136, 0.24);
+}
+
+button:active,
+.view-toggle button:active,
+.ghost-button:active,
+.primary-button:active,
+.secondary-button:active {
+  transform: translateY(0);
+}
+
+.app-main {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  position: sticky;
+  top: 0;
+  background: rgba(248, 249, 250, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 0.5rem 0;
+  margin: -0.5rem 0 2rem 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--border);
+}
+
+.eyebrow {
+  margin: 0 0 0.45rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.78rem;
+}
+
+.page-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.avatar-pill {
+  min-width: 56px;
+  min-height: 56px;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 700;
+}
+
+.hero-card,
+.metric-card,
+.status-panel,
+.insight-card,
+.analytics-hero,
+.chart-card,
+.patient-card,
+.patient-row,
+.patient-detail-card,
+.login-panel {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(14px);
+  border-radius: 24px;
+  transform: translateY(16px);
+  opacity: 0;
+  animation: popUp 0.45s ease both;
+}
+
+@keyframes popUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+
+.login-panel {
+  width: min(480px, 100%);
+  padding: 2.5rem;
+}
+
+.login-brand span {
+  display: inline-flex;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.login-brand p {
+  margin: 1rem 0 1.6rem;
+  color: var(--muted);
+}
+
+.login-panel h2 {
+  margin: 0 0 1.8rem;
+  font-size: clamp(2rem, 3vw, 2.5rem);
+}
+
+.login-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.login-form label {
+  display: grid;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+}
+
+.login-form input {
+  padding: 1rem 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input {
+  padding-right: 3rem;
+  width: 100%;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.password-toggle-btn:hover {
+  color: var(--text);
+}
+
+.login-form button {
+  margin-top: 0.2rem;
+}
+
+.form-error {
+  color: var(--danger);
+}
+
+.login-hint {
+  margin-top: 1.5rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.login-footer {
+  margin-top: 2rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.login-footer p {
+  margin: 0;
+}
+
+.signup-link {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.signup-link:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.dashboard-page,
+.analytics-page,
+.patients-page,
+.details-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.hero-card {
+  padding: 2rem;
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.hero-card h1 {
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.hero-copy {
+  max-width: 50ch;
+  color: var(--muted);
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.metric-card {
+  padding: 1.5rem;
+}
+
+.metric-card strong {
+  display: block;
+  font-size: 2rem;
+  margin: 0.8rem 0;
+}
+
+.status-section {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1rem;
+}
+
+.status-panel,
+.insight-card {
+  padding: 1.75rem;
+}
+
+.status-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.status-chips span,
+.summary-badges span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.analytics-hero {
+  padding: 2rem;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.chart-card {
+  padding: 1.5rem;
+  display: grid;
+  gap: 1.2rem;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.chart-bar {
+  height: 180px;
+  border-radius: 22px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.02)
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-bar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(180deg, var(--accent), transparent);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  animation: growBar 1s ease forwards;
+}
+
+@keyframes growBar {
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.chart-bar-1::after {
+  height: 68%;
+}
+
+.chart-bar-2::after {
+  height: 52%;
+  background: linear-gradient(180deg, var(--success), transparent);
+}
+
+.chart-bar-3::after {
+  height: 82%;
+  background: linear-gradient(180deg, var(--warning), transparent);
+}
+
+.analytics-summary {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.analytics-summary > div {
+  flex: 1 1 350px;
+  padding: 1.5rem;
+}
+
+.summary-badges {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.patient-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.5rem;
+}
+
+.patient-card {
+  display: grid;
+  gap: 1rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.patient-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: rgba(13, 148, 136, 0.3);
+}
+
+.patient-avatar {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 22px;
+}
+
+.patient-content {
+  display: grid;
+  gap: 1rem;
+}
+
+.patient-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.status-pill {
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.status-pill.Stable,
+.status-pill.stable {
+  background: rgba(16, 185, 129, 0.15);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-pill.Critical,
+.status-pill.critical {
+  background: rgba(239, 68, 68, 0.15);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.status-pill.Monitoring,
+.status-pill.monitoring {
+  background: rgba(59, 130, 246, 0.15);
+  color: #1e40af;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.status-pill.Discharged,
+.status-pill.discharged {
+  background: rgba(168, 85, 247, 0.15);
+  color: #7c3aed;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.patient-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.patient-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.patient-row {
+  display: grid;
+  grid-template-columns: 2.3fr 0.8fr 0.8fr 1fr 1fr;
+  align-items: center;
+  padding: 1.2rem 1.5rem;
+  gap: 0.8rem;
+  color: var(--text);
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.patient-row.header-row {
+  color: var(--muted);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: rgba(13, 148, 136, 0.05);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+}
+
+.patient-row:not(.header-row) {
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+.patient-row:not(.header-row):hover {
+  background: rgba(13, 148, 136, 0.02);
+  border-color: rgba(13, 148, 136, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.row-name {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.row-name img {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.row-name span {
+  display: block;
+  color: var(--muted);
+}
+
+.view-toggle {
+  display: inline-flex;
+  gap: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  padding: 0.25rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.view-toggle button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.8rem 1.2rem;
+  background: transparent;
+  color: var(--muted);
+}
+
+.view-toggle button.active,
+.view-toggle button:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.patient-detail-card {
+  padding: 2rem;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.patient-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.patient-detail-avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 28px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.patient-detail-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.detail-grid div {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 18px;
+  padding: 1rem 1.2rem;
+}
+
+.detail-grid span {
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.wide-cell {
+  grid-column: 1 / -1;
+}
+
+.notes-panel {
+  padding: 1.4rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 18px;
+}
+
+.notes-panel h2 {
+  margin: 0 0 0.75rem;
+}
+
+.details-page.empty-state {
+  padding: 2rem;
+}
+
+.secondary-button,
+.primary-button {
+  min-width: 180px;
+}
+
+@media (max-width: 1120px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .app-sidebar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .metrics-grid,
+  .analytics-grid,
+  .status-section,
+  .detail-grid,
+  .patient-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .topbar,
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .patient-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .patient-row.header-row {
+    display: none;
+  }
+
+  .patient-row span {
+    font-size: 0.95rem;
+  }
+
+  .metric-card,
+  .chart-card,
+  .status-panel,
+  .insight-card,
+  .patient-card,
+  .login-panel,
+  .analysis-hero,
+  .patient-detail-card {
+    padding: 1.5rem;
+  }
+}
